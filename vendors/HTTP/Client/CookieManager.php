@@ -36,22 +36,22 @@
  * SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  *
  * @category   HTTP
- * @package    HTTP_Client
+ * @package    cakephp_http_client_HTTP_Client
  * @author     Alexey Borzov <avb@php.net>
  * @license    http://opensource.org/licenses/bsd-license.php New BSD License
  * @version    CVS: $Id: CookieManager.php,v 1.9 2008/10/25 17:05:40 avb Exp $
- * @link       http://pear.php.net/package/HTTP_Client
+ * @link       http://pear.php.net/package/cakephp_http_client_HTTP_Client
  */
 
 /**
  * Class used to store cookies and pass them between HTTP requests.
  * 
  * @category    HTTP
- * @package     HTTP_Client
+ * @package     cakephp_http_client_HTTP_Client
  * @author      Alexey Borzov <avb@php.net>
  * @version     Release: 1.2.1
  */
-class HTTP_Client_CookieManager
+class cakephp_http_client_HTTP_Client_CookieManager
 {
    /**
     * An array containing cookie values
@@ -75,7 +75,7 @@ class HTTP_Client_CookieManager
     * @access   public
     * @see      serializeSessionCookies()
     */
-    function HTTP_Client_CookieManager($serializeSession = false)
+    function cakephp_http_client_HTTP_Client_CookieManager($serializeSession = false)
     {
         $this->serializeSessionCookies($serializeSession);
     }
@@ -96,7 +96,7 @@ class HTTP_Client_CookieManager
     * Adds cookies to the request
     * 
     * @access   public
-    * @param    HTTP_Request    Request object
+    * @param    cakephp_http_client_HTTP_Request    Request object
     */
     function passCookies(&$request)
     {
@@ -142,7 +142,7 @@ class HTTP_Client_CookieManager
     * Updates cookie list from HTTP server response
     *
     * @access   public
-    * @param    HTTP_Request    Request object already containing the response
+    * @param    cakephp_http_client_HTTP_Request    Request object already containing the response
     */
     function updateCookies(&$request)
     {

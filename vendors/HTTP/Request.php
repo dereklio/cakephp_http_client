@@ -35,27 +35,19 @@
  * OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  *
  * @category    HTTP
- * @package     HTTP_Request
+ * @package     cakephp_http_client_HTTP_Request
  * @author      Richard Heyes <richard@phpguru.org>
  * @author      Alexey Borzov <avb@php.net>
  * @copyright   2002-2007 Richard Heyes
  * @license     http://opensource.org/licenses/bsd-license.php New BSD License
  * @version     CVS: $Id: Request.php,v 1.63 2008/10/11 11:07:10 avb Exp $
- * @link        http://pear.php.net/package/HTTP_Request/
+ * @link        http://pear.php.net/package/cakephp_http_client_HTTP_Request/
  */
 
 /**
  * PEAR and PEAR_Error classes (for error handling)
  */
 require_once 'PEAR.php';
-/**
- * Socket class
- */
-require_once 'Net/Socket.php';
-/**
- * URL handling class
- */
-require_once 'Net/URL.php';
 
 /**#@+
  * Constants for HTTP request methods
@@ -107,25 +99,25 @@ if (extension_loaded('mbstring') && (2 & ini_get('mbstring.func_overload'))) {
  *
  * Simple example (fetches yahoo.com and displays it):
  * <code>
- * $a = &new HTTP_Request('http://www.yahoo.com/');
+ * $a = &new cakephp_http_client_HTTP_Request('http://www.yahoo.com/');
  * $a->sendRequest();
  * echo $a->getResponseBody();
  * </code>
  *
  * @category    HTTP
- * @package     HTTP_Request
+ * @package     cakephp_http_client_HTTP_Request
  * @author      Richard Heyes <richard@phpguru.org>
  * @author      Alexey Borzov <avb@php.net>
  * @version     Release: 1.4.4
  */
-class HTTP_Request
+class cakephp_http_client_HTTP_Request
 {
    /**#@+
     * @access private
     */
     /**
-    * Instance of Net_URL
-    * @var Net_URL
+    * Instance of cakephp_http_client_Net_URL
+    * @var cakephp_http_client_Net_URL
     */
     var $_url;
 
@@ -161,7 +153,7 @@ class HTTP_Request
 
     /**
     * Socket object
-    * @var Net_Socket
+    * @var cakephp_http_client_Net_Socket
     */
     var $_sock;
 
@@ -230,8 +222,8 @@ class HTTP_Request
     var $_timeout;
 
     /**
-    * HTTP_Response object
-    * @var HTTP_Response
+    * cakephp_http_client_HTTP_Response object
+    * @var cakephp_http_client_HTTP_Response
     */
     var $_response;
 
@@ -278,7 +270,7 @@ class HTTP_Request
     var $_readTimeout = null;
 
    /**
-    * Options to pass to Net_Socket::connect. See stream_context_create
+    * Options to pass to cakephp_http_client_Net_Socket::connect. See stream_context_create
     * @var array
     */
     var $_socketOptions = null;
@@ -305,11 +297,11 @@ class HTTP_Request
     *   <li>useBrackets    - Whether to append [] to array variable names (bool)</li>
     *   <li>saveBody       - Whether to save response body in response object property (bool)</li>
     *   <li>readTimeout    - Timeout for reading / writing data over the socket (array (seconds, microseconds))</li>
-    *   <li>socketOptions  - Options to pass to Net_Socket object (array)</li>
+    *   <li>socketOptions  - Options to pass to cakephp_http_client_Net_Socket object (array)</li>
     * </ul>
     * @access public
     */
-    function HTTP_Request($url = '', $params = array())
+    function cakephp_http_client_HTTP_Request($url = '', $params = array())
     {
         $this->_method         =  HTTP_REQUEST_METHOD_GET;
         $this->_http           =  HTTP_REQUEST_HTTP_VER_1_1;
@@ -341,7 +333,7 @@ class HTTP_Request
         }
 
         // Default useragent
-        $this->addHeader('User-Agent', 'PEAR HTTP_Request class ( http://pear.php.net/ )');
+        $this->addHeader('User-Agent', 'PEAR cakephp_http_client_HTTP_Request class ( http://pear.php.net/ )');
 
         // We don't do keep-alives by default
         $this->addHeader('Connection', 'close');
@@ -398,7 +390,7 @@ class HTTP_Request
     */
     function reset($url, $params = array())
     {
-        $this->HTTP_Request($url, $params);
+        $this->cakephp_http_client_HTTP_Request($url, $params);
     }
 
     /**
@@ -409,7 +401,7 @@ class HTTP_Request
     */
     function setURL($url)
     {
-        $this->_url = &new Net_URL($url, $this->_useBrackets);
+        $this->_url = &new cakephp_http_client_Net_URL($url, $this->_useBrackets);
 
         if (!empty($this->_url->user) || !empty($this->_url->pass)) {
             $this->setBasicAuth($this->_url->user, $this->_url->pass);
@@ -689,7 +681,7 @@ class HTTP_Request
     */
     function sendRequest($saveBody = true)
     {
-        if (!is_a($this->_url, 'Net_URL')) {
+        if (!is_a($this->_url, 'cakephp_http_client_Net_URL')) {
             return PEAR::raiseError('No URL given', HTTP_REQUEST_ERROR_URL);
         }
 
@@ -721,7 +713,7 @@ class HTTP_Request
 
         $keepAlive = (HTTP_REQUEST_HTTP_VER_1_1 == $this->_http && empty($this->_requestHeaders['connection'])) ||
                      (!empty($this->_requestHeaders['connection']) && 'Keep-Alive' == $this->_requestHeaders['connection']);
-        $sockets   = &PEAR::getStaticProperty('HTTP_Request', 'sockets');
+        $sockets   = &PEAR::getStaticProperty('cakephp_http_client_HTTP_Request', 'sockets');
         $sockKey   = $host . ':' . $port;
         unset($this->_sock);
 
@@ -733,7 +725,7 @@ class HTTP_Request
             $err = null;
         } else {
             $this->_notify('connect');
-            $this->_sock =& new Net_Socket();
+            $this->_sock =& new cakephp_http_client_Net_Socket();
             $err = $this->_sock->connect($host, $port, null, $this->_timeout, $this->_socketOptions);
         }
         PEAR::isError($err) or $err = $this->_sock->write($this->_buildRequest());
@@ -746,7 +738,7 @@ class HTTP_Request
             $this->_notify('sentRequest');
 
             // Read the response
-            $this->_response = &new HTTP_Response($this->_sock, $this->_listeners);
+            $this->_response = &new cakephp_http_client_HTTP_Response($this->_sock, $this->_listeners);
             $err = $this->_response->process(
                 $this->_saveBody && $saveBody,
                 HTTP_REQUEST_METHOD_HEAD != $this->_method
@@ -791,7 +783,7 @@ class HTTP_Request
 
             // Absolute URL
             if (preg_match('/^https?:\/\//i', $redirect)) {
-                $this->_url = &new Net_URL($redirect);
+                $this->_url = &new cakephp_http_client_Net_URL($redirect);
                 $this->addHeader('Host', $this->_generateHostHeader());
             // Absolute path
             } elseif ($redirect{0} == '/') {
@@ -804,7 +796,7 @@ class HTTP_Request
                 } else {
                     $redirect = dirname($this->_url->path) . '/' . $redirect;
                 }
-                $redirect = Net_URL::resolvePath($redirect);
+                $redirect = cakephp_http_client_Net_URL::resolvePath($redirect);
                 $this->_url->path = $redirect;
 
             // Filename, no path
@@ -937,7 +929,7 @@ class HTTP_Request
                 // Add default content-type
                 $this->addHeader('Content-Type', 'application/x-www-form-urlencoded');
             } elseif ('multipart/form-data' == $this->_requestHeaders['content-type']) {
-                $boundary = 'HTTP_Request_' . md5(uniqid('request') . microtime());
+                $boundary = 'cakephp_http_client_HTTP_Request_' . md5(uniqid('request') . microtime());
                 $this->addHeader('Content-Type', 'multipart/form-data; boundary=' . $boundary);
             }
         }
@@ -1058,24 +1050,24 @@ class HTTP_Request
     * Adds a Listener to the list of listeners that are notified of
     * the object's events
     *
-    * Events sent by HTTP_Request object
+    * Events sent by cakephp_http_client_HTTP_Request object
     * - 'connect': on connection to server
     * - 'sentRequest': after the request was sent
     * - 'disconnect': on disconnection from server
     *
-    * Events sent by HTTP_Response object
+    * Events sent by cakephp_http_client_HTTP_Response object
     * - 'gotHeaders': after receiving response headers (headers are passed in $data)
     * - 'tick': on receiving a part of response body (the part is passed in $data)
     * - 'gzTick': on receiving a gzip-encoded part of response body (ditto)
     * - 'gotBody': after receiving the response body (passes the decoded body in $data if it was gzipped)
     *
-    * @param    HTTP_Request_Listener   listener to attach
+    * @param    cakephp_http_client_HTTP_Request_Listener   listener to attach
     * @return   boolean                 whether the listener was successfully attached
     * @access   public
     */
     function attach(&$listener)
     {
-        if (!is_a($listener, 'HTTP_Request_Listener')) {
+        if (!is_a($listener, 'cakephp_http_client_HTTP_Request_Listener')) {
             return false;
         }
         $this->_listeners[$listener->getId()] =& $listener;
@@ -1086,13 +1078,13 @@ class HTTP_Request
    /**
     * Removes a Listener from the list of listeners
     *
-    * @param    HTTP_Request_Listener   listener to detach
+    * @param    cakephp_http_client_HTTP_Request_Listener   listener to detach
     * @return   boolean                 whether the listener was successfully detached
     * @access   public
     */
     function detach(&$listener)
     {
-        if (!is_a($listener, 'HTTP_Request_Listener') ||
+        if (!is_a($listener, 'cakephp_http_client_HTTP_Request_Listener') ||
             !isset($this->_listeners[$listener->getId()])) {
             return false;
         }
@@ -1107,7 +1099,7 @@ class HTTP_Request
     * @param    string  Event name
     * @param    mixed   Additional data
     * @access   private
-    * @see      HTTP_Request::attach()
+    * @see      cakephp_http_client_HTTP_Request::attach()
     */
     function _notify($event, $data = null)
     {
@@ -1122,16 +1114,16 @@ class HTTP_Request
  * Response class to complement the Request class
  *
  * @category    HTTP
- * @package     HTTP_Request
+ * @package     cakephp_http_client_HTTP_Request
  * @author      Richard Heyes <richard@phpguru.org>
  * @author      Alexey Borzov <avb@php.net>
  * @version     Release: 1.4.4
  */
-class HTTP_Response
+class cakephp_http_client_HTTP_Response
 {
     /**
     * Socket object
-    * @var Net_Socket
+    * @var cakephp_http_client_Net_Socket
     */
     var $_sock;
 
@@ -1192,10 +1184,10 @@ class HTTP_Response
     /**
     * Constructor
     *
-    * @param  Net_Socket    socket to read the response from
+    * @param  cakephp_http_client_Net_Socket    socket to read the response from
     * @param  array         listeners attached to request
     */
-    function HTTP_Response(&$sock, &$listeners)
+    function cakephp_http_client_HTTP_Response(&$sock, &$listeners)
     {
         $this->_sock      =& $sock;
         $this->_listeners =& $listeners;
@@ -1409,7 +1401,7 @@ class HTTP_Response
     * @param    string  Event name
     * @param    mixed   Additional data
     * @access   private
-    * @see HTTP_Request::_notify()
+    * @see cakephp_http_client_HTTP_Request::_notify()
     */
     function _notify($event, $data = null)
     {
@@ -1517,5 +1509,5 @@ class HTTP_Response
         }
         return $unpacked;
     }
-} // End class HTTP_Response
+} // End class cakephp_http_client_HTTP_Response
 ?>

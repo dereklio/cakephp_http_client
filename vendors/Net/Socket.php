@@ -32,7 +32,7 @@ define('NET_SOCKET_ERROR', 4);
  * @author Stig Bakken <ssb@php.net>
  * @author Chuck Hagenbuch <chuck@horde.org>
  */
-class Net_Socket extends PEAR {
+class cakephp_http_client_Net_Socket extends PEAR {
 
     /**
      * Socket file pointer.
@@ -585,7 +585,7 @@ class Net_Socket extends PEAR {
             }
             return @stream_socket_enable_crypto($this->fp, $enabled, $type);
         } else {
-            return $this->raiseError('Net_Socket::enableCrypto() requires php version >= 5.1.0');
+            return $this->raiseError('cakephp_http_client_Net_Socket::enableCrypto() requires php version >= 5.1.0');
         }
     }
 
