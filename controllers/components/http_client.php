@@ -18,7 +18,7 @@ class HttpClientComponent extends Object {
 	function __call($name, $arguments) {
 		$http = &$this->_getInstance();
 		if (method_exists($http, $name)) {
-			return call_user_method_array($name, $http, $arguments);
+			return call_user_func_array(a($http, $name), $arguments);
 		}
 	}
 
