@@ -19,8 +19,6 @@
 //
 // $Id: Socket.php,v 1.38 2008/02/15 18:24:17 chagenbu Exp $
 
-require_once 'PEAR.php';
-
 define('NET_SOCKET_READ',  1);
 define('NET_SOCKET_WRITE', 2);
 define('NET_SOCKET_ERROR', 4);
@@ -32,7 +30,7 @@ define('NET_SOCKET_ERROR', 4);
  * @author Stig Bakken <ssb@php.net>
  * @author Chuck Hagenbuch <chuck@horde.org>
  */
-class cakephp_http_client_Net_Socket extends PEAR {
+class cakephp_httpclient_Net_Socket extends cakephp_httpclient_PEAR {
 
     /**
      * Socket file pointer.
@@ -92,7 +90,7 @@ class cakephp_http_client_Net_Socket extends PEAR {
      *
      * @access public
      *
-     * @return boolean | PEAR_Error  True on success or a PEAR_Error on failure.
+     * @return boolean | cakephp_httpclient_PEAR_Error  True on success or a cakephp_httpclient_PEAR_Error on failure.
      */
     function connect($addr, $port = 0, $persistent = null, $timeout = null, $options = null)
     {
@@ -166,7 +164,7 @@ class cakephp_http_client_Net_Socket extends PEAR {
      * Disconnects from the peer, closes the socket.
      *
      * @access public
-     * @return mixed true on success or a PEAR_Error instance otherwise
+     * @return mixed true on success or a cakephp_httpclient_PEAR_Error instance otherwise
      */
     function disconnect()
     {
@@ -198,7 +196,7 @@ class cakephp_http_client_Net_Socket extends PEAR {
      *
      * @param boolean $mode  True for blocking sockets, false for nonblocking.
      * @access public
-     * @return mixed true on success or a PEAR_Error instance otherwise
+     * @return mixed true on success or a cakephp_httpclient_PEAR_Error instance otherwise
      */
     function setBlocking($mode)
     {
@@ -218,7 +216,7 @@ class cakephp_http_client_Net_Socket extends PEAR {
      * @param integer $seconds  Seconds.
      * @param integer $microseconds  Microseconds.
      * @access public
-     * @return mixed true on success or a PEAR_Error instance otherwise
+     * @return mixed true on success or a cakephp_httpclient_PEAR_Error instance otherwise
      */
     function setTimeout($seconds, $microseconds)
     {
@@ -235,7 +233,7 @@ class cakephp_http_client_Net_Socket extends PEAR {
      *
      * @param integer $size     Write buffer size.
      * @access public
-     * @return mixed on success or an PEAR_Error object otherwise
+     * @return mixed on success or an cakephp_httpclient_PEAR_Error object otherwise
      */
     function setWriteBuffer($size)
     {
@@ -262,7 +260,7 @@ class cakephp_http_client_Net_Socket extends PEAR {
      * </p>
      *
      * @access public
-     * @return mixed Array containing information about existing socket resource or a PEAR_Error instance otherwise
+     * @return mixed Array containing information about existing socket resource or a cakephp_httpclient_PEAR_Error instance otherwise
      */
     function getStatus()
     {
@@ -277,7 +275,7 @@ class cakephp_http_client_Net_Socket extends PEAR {
      * Get a specified line of data
      *
      * @access public
-     * @return $size bytes of data from the socket, or a PEAR_Error if
+     * @return $size bytes of data from the socket, or a cakephp_httpclient_PEAR_Error if
      *         not connected.
      */
     function gets($size)
@@ -297,7 +295,7 @@ class cakephp_http_client_Net_Socket extends PEAR {
      *
      * @param integer $size  The number of bytes to read from the socket.
      * @access public
-     * @return $size bytes of data from the socket, or a PEAR_Error if
+     * @return $size bytes of data from the socket, or a cakephp_httpclient_PEAR_Error if
      *         not connected.
      */
     function read($size)
@@ -317,7 +315,7 @@ class cakephp_http_client_Net_Socket extends PEAR {
      *                            NULL means all at once.
      *
      * @access public
-     * @return mixed If the socket is not connected, returns an instance of PEAR_Error
+     * @return mixed If the socket is not connected, returns an instance of cakephp_httpclient_PEAR_Error
      *               If the write succeeds, returns the number of bytes written
      *               If the write fails, returns false.
      */
@@ -380,7 +378,7 @@ class cakephp_http_client_Net_Socket extends PEAR {
      * Reads a byte of data
      *
      * @access public
-     * @return 1 byte of data from the socket, or a PEAR_Error if
+     * @return 1 byte of data from the socket, or a cakephp_httpclient_PEAR_Error if
      *         not connected.
      */
     function readByte()
@@ -396,7 +394,7 @@ class cakephp_http_client_Net_Socket extends PEAR {
      * Reads a word of data
      *
      * @access public
-     * @return 1 word of data from the socket, or a PEAR_Error if
+     * @return 1 word of data from the socket, or a cakephp_httpclient_PEAR_Error if
      *         not connected.
      */
     function readWord()
@@ -413,7 +411,7 @@ class cakephp_http_client_Net_Socket extends PEAR {
      * Reads an int of data
      *
      * @access public
-     * @return integer  1 int of data from the socket, or a PEAR_Error if
+     * @return integer  1 int of data from the socket, or a cakephp_httpclient_PEAR_Error if
      *                  not connected.
      */
     function readInt()
@@ -431,7 +429,7 @@ class cakephp_http_client_Net_Socket extends PEAR {
      * Reads a zero-terminated string of data
      *
      * @access public
-     * @return string, or a PEAR_Error if
+     * @return string, or a cakephp_httpclient_PEAR_Error if
      *         not connected.
      */
     function readString()
@@ -451,7 +449,7 @@ class cakephp_http_client_Net_Socket extends PEAR {
      * Reads an IP Address and returns it in a dot formatted string
      *
      * @access public
-     * @return Dot formatted string, or a PEAR_Error if
+     * @return Dot formatted string, or a cakephp_httpclient_PEAR_Error if
      *         not connected.
      */
     function readIPAddress()
@@ -471,7 +469,7 @@ class cakephp_http_client_Net_Socket extends PEAR {
      *
      * @access public
      * @return All available data up to a newline, without that
-     *         newline, or until the end of the socket, or a PEAR_Error if
+     *         newline, or until the end of the socket, or a cakephp_httpclient_PEAR_Error if
      *         not connected.
      */
     function readLine()
@@ -501,7 +499,7 @@ class cakephp_http_client_Net_Socket extends PEAR {
      *
      * @access public
      *
-     * @return string  All data until the socket closes, or a PEAR_Error if
+     * @return string  All data until the socket closes, or a cakephp_httpclient_PEAR_Error if
      *                 not connected.
      */
     function readAll()
@@ -527,7 +525,7 @@ class cakephp_http_client_Net_Socket extends PEAR {
      *
      * @access public
      * @return False if select fails, integer describing which of read/write/error
-     *         are ready, or PEAR_Error if not connected.
+     *         are ready, or cakephp_httpclient_PEAR_Error if not connected.
      */
     function select($state, $tv_sec, $tv_usec = 0)
     {
@@ -574,7 +572,7 @@ class cakephp_http_client_Net_Socket extends PEAR {
      *
      * @access public
      * @return false on error, true on success and 0 if there isn't enough data and the
-     *         user should try again (non-blocking sockets only). A PEAR_Error object
+     *         user should try again (non-blocking sockets only). A cakephp_httpclient_PEAR_Error object
      *         is returned if the socket is not connected
      */
     function enableCrypto($enabled, $type)
@@ -585,7 +583,7 @@ class cakephp_http_client_Net_Socket extends PEAR {
             }
             return @stream_socket_enable_crypto($this->fp, $enabled, $type);
         } else {
-            return $this->raiseError('cakephp_http_client_Net_Socket::enableCrypto() requires php version >= 5.1.0');
+            return $this->raiseError('cakephp_httpclient_Net_Socket::enableCrypto() requires php version >= 5.1.0');
         }
     }
 

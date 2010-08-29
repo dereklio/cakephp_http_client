@@ -36,15 +36,15 @@
  * SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  *
  * @category    HTTP
- * @package     cakephp_http_client_HTTP_Client
+ * @package     cakephp_httpclient_HTTP_Client
  * @author      Alexey Borzov <avb@php.net>
  * @license     http://opensource.org/licenses/bsd-license.php New BSD License
  * @version     CVS: $Id: Client.php,v 1.11 2008/10/11 14:29:27 avb Exp $
- * @link        http://pear.php.net/package/cakephp_http_client_HTTP_Client
+ * @link        http://pear.php.net/package/cakephp_httpclient_HTTP_Client
  */
 
 /*
- * Do this define in your script if you wish cakephp_http_client_HTTP_Client to follow browser 
+ * Do this define in your script if you wish cakephp_httpclient_HTTP_Client to follow browser 
  * quirks rather than HTTP specification (RFC2616). This means:
  *   - do a GET request after redirect with code 301, rather than use the
  *     same method as before redirect.
@@ -54,18 +54,18 @@
 /**
  * A simple HTTP client class.
  * 
- * The class wraps around cakephp_http_client_HTTP_Request providing a higher-level
+ * The class wraps around cakephp_httpclient_HTTP_Request providing a higher-level
  * API for performing multiple HTTP requests
  *
  * Note that the class implements all the methods defined by the Iterator 
  * interface for going over the received responses. Being PHP4-compatible it is 
  * not declared with 'implements Iterator', though. Therefore if you are 
- * running PHP5 and want to use cakephp_http_client_HTTP_Client in 'foreach' context you should do
+ * running PHP5 and want to use cakephp_httpclient_HTTP_Client in 'foreach' context you should do
  * the following:
  * <code>
- * class PHP5_cakephp_http_client_HTTP_Client extends cakephp_http_client_HTTP_Client implements Iterator {}
+ * class PHP5_cakephp_httpclient_HTTP_Client extends cakephp_httpclient_HTTP_Client implements Iterator {}
  * 
- * $client = new PHP5_cakephp_http_client_HTTP_Client();
+ * $client = new PHP5_cakephp_httpclient_HTTP_Client();
  * 
  * // ... perform requests ...
  * 
@@ -84,18 +84,18 @@
  * </code>
  * 
  * @category    HTTP
- * @package     cakephp_http_client_HTTP_Client
+ * @package     cakephp_httpclient_HTTP_Client
  * @author      Alexey Borzov <avb@php.net>
  * @version     Release: 1.2.1
  */
-class cakephp_http_client_HTTP_Client
+class cakephp_httpclient_HTTP_Client
 {
    /**#@+
     * @access private
     */
    /**
     * Cookie manager object
-    * @var cakephp_http_client_HTTP_Client_CookieManager
+    * @var cakephp_httpclient_HTTP_Client_CookieManager
     */
     var $_cookieManager;
 
@@ -112,7 +112,7 @@ class cakephp_http_client_HTTP_Client
     var $_defaultHeaders = array();
 
    /**
-    * Default parameters for cakephp_http_client_HTTP_Request's constructor
+    * Default parameters for cakephp_httpclient_HTTP_Request's constructor
     * @var array
     */
     var $_defaultRequestParams = array();
@@ -158,16 +158,16 @@ class cakephp_http_client_HTTP_Client
     * Constructor
     * 
     * @access   public
-    * @param    array                       Parameters to pass to cakephp_http_client_HTTP_Request's constructor
+    * @param    array                       Parameters to pass to cakephp_httpclient_HTTP_Request's constructor
     * @param    array                       Default headers to send on every request
-    * @param    cakephp_http_client_HTTP_Client_CookieManager   Cookie manager object to use
+    * @param    cakephp_httpclient_HTTP_Client_CookieManager   Cookie manager object to use
     */
-    function cakephp_http_client_HTTP_Client($defaultRequestParams = null, $defaultHeaders = null, $cookieManager = null)
+    function cakephp_httpclient_HTTP_Client($defaultRequestParams = null, $defaultHeaders = null, $cookieManager = null)
     {
-        if (!empty($cookieManager) && is_a($cookieManager, 'cakephp_http_client_HTTP_Client_CookieManager')) {
+        if (!empty($cookieManager) && is_a($cookieManager, 'cakephp_httpclient_HTTP_Client_CookieManager')) {
             $this->_cookieManager = $cookieManager;
         } else {
-            $this->_cookieManager =& new cakephp_http_client_HTTP_Client_CookieManager();
+            $this->_cookieManager =& new cakephp_httpclient_HTTP_Client_CookieManager();
         }
         if (isset($defaultHeaders)) {
             $this->setDefaultHeader($defaultHeaders);
@@ -206,17 +206,17 @@ class cakephp_http_client_HTTP_Client
     }
 
    /**
-    * Creates a cakephp_http_client_HTTP_Request objects, applying all the necessary defaults
+    * Creates a cakephp_httpclient_HTTP_Request objects, applying all the necessary defaults
     *
     * @param    string   URL
-    * @param    string   Method, constants are defined in cakephp_http_client_HTTP_Request
+    * @param    string   Method, constants are defined in cakephp_httpclient_HTTP_Request
     * @param    array    Extra headers to send
     * @access   private
-    * @return   cakephp_http_client_HTTP_Request    Request object with all defaults applied
+    * @return   cakephp_httpclient_HTTP_Request    Request object with all defaults applied
     */
     function &_createRequest($url, $method = HTTP_REQUEST_METHOD_GET, $headers = array())
     {
-        $req =& new cakephp_http_client_HTTP_Request($url, $this->_defaultRequestParams);
+        $req =& new cakephp_httpclient_HTTP_Request($url, $this->_defaultRequestParams);
         $req->setMethod($method);
         foreach ($this->_defaultHeaders as $name => $value) {
             $req->addHeader($name, $value);
@@ -241,7 +241,7 @@ class cakephp_http_client_HTTP_Client
     * @param    array   Extra headers to send
     * @access   public
     * @return   integer HTTP response code
-    * @throws   PEAR_Error
+    * @throws   cakephp_httpclient_PEAR_Error
     */
     function head($url, $headers = array())
     {
@@ -259,7 +259,7 @@ class cakephp_http_client_HTTP_Client
     * @param    array   Extra headers to send
     * @access   public
     * @return   integer HTTP response code
-    * @throws   PEAR_Error
+    * @throws   cakephp_httpclient_PEAR_Error
     */
     function get($url, $data = null, $preEncoded = false, $headers = array())
     {
@@ -282,11 +282,11 @@ class cakephp_http_client_HTTP_Client
     * @param    mixed   Data to send
     * @param    boolean Whether the data is already urlencoded
     * @param    array   Files to upload. Elements of the array should have the form:
-    *                   array(name, filename(s)[, content type]), see cakephp_http_client_HTTP_Request::addFile()
+    *                   array(name, filename(s)[, content type]), see cakephp_httpclient_HTTP_Request::addFile()
     * @param    array   Extra headers to send
     * @access   public
     * @return   integer HTTP response code
-    * @throws   PEAR_Error
+    * @throws   cakephp_httpclient_PEAR_Error
     */
     function post($url, $data, $preEncoded = false, $files = array(), $headers = array())
     {
@@ -300,7 +300,7 @@ class cakephp_http_client_HTTP_Client
         }
         foreach ($files as $fileData) {
             $res = call_user_func_array(array(&$request, 'addFile'), $fileData);
-            if (PEAR::isError($res)) {
+            if (cakephp_httpclient_PEAR::isError($res)) {
                 return $res;
             }
         }
@@ -316,7 +316,7 @@ class cakephp_http_client_HTTP_Client
     * @param    array   Extra headers to send
     * @access   public
     * @return   integer HTTP response code
-    * @throws   PEAR_Error
+    * @throws   cakephp_httpclient_PEAR_Error
     */
     function put($url, $body = '', $headers = array())
     {
@@ -333,7 +333,7 @@ class cakephp_http_client_HTTP_Client
     * @param    array   Extra headers to send
     * @access   public
     * @return   integer HTTP response code
-    * @throws   PEAR_Error
+    * @throws   cakephp_httpclient_PEAR_Error
     */
     function delete($url, $headers = array())
     {
@@ -378,10 +378,10 @@ class cakephp_http_client_HTTP_Client
    /**
     * Performs a request, processes redirects
     *
-    * @param    cakephp_http_client_HTTP_Request    Request object
+    * @param    cakephp_httpclient_HTTP_Request    Request object
     * @access   private
     * @return   integer         HTTP response code
-    * @throws   PEAR_Error
+    * @throws   cakephp_httpclient_PEAR_Error
     */
     function _performRequest(&$request)
     {
@@ -389,7 +389,7 @@ class cakephp_http_client_HTTP_Client
         if (0 == $this->_redirectCount && '' != $request->getUrl()) {
             $this->_notify('request', $request->getUrl());
         }
-        if (PEAR::isError($err = $request->sendRequest())) {
+        if (cakephp_httpclient_PEAR::isError($err = $request->sendRequest())) {
             $this->_redirectCount = 0;
             return $err;
         }
@@ -400,7 +400,7 @@ class cakephp_http_client_HTTP_Client
             if (in_array($code, array(300, 301, 302, 303, 307))) {
                 if ('' == ($location = $request->getResponseHeader('Location'))) {
                     $this->_redirectCount = 0;
-                    return PEAR::raiseError("No 'Location' field on redirect");
+                    return cakephp_httpclient_PEAR::raiseError("No 'Location' field on redirect");
                 }
                 // Bug #5759: do not try to follow non-HTTP redirects
                 if (null === ($redirectUrl = $this->_redirectUrl($request->_url, $location))) {
@@ -415,7 +415,7 @@ class cakephp_http_client_HTTP_Client
         if (!empty($redirectUrl)) {
             if (++$this->_redirectCount > $this->_maxRedirects) {
                 $this->_redirectCount = 0;
-                return PEAR::raiseError('Too many redirects');
+                return cakephp_httpclient_PEAR::raiseError('Too many redirects');
             }
             // Notify of redirection
             $this->_notify('httpRedirect', $redirectUrl);
@@ -474,7 +474,7 @@ class cakephp_http_client_HTTP_Client
    /**
     * Saves the server's response to responses list
     *
-    * @param    cakephp_http_client_HTTP_Request    Request object already containing the response
+    * @param    cakephp_httpclient_HTTP_Request    Request object already containing the response
     * @access   private
     */
     function _pushResponse(&$request)
@@ -509,21 +509,21 @@ class cakephp_http_client_HTTP_Client
     * Adds a Listener to the list of listeners that are notified of
     * the object's events
     *
-    * Events sent by cakephp_http_client_HTTP_Client objects:
+    * Events sent by cakephp_httpclient_HTTP_Client objects:
     * - 'request': sent on HTTP request that is not a redirect
     * - 'httpSuccess': sent when we receive a successfull 2xx response
     * - 'httpRedirect': sent when we receive a redirection response
     * - 'httpError': sent on 4xx, 5xx response
     *
-    * @param    cakephp_http_client_HTTP_Request_Listener   Listener to attach
+    * @param    cakephp_httpclient_HTTP_Request_Listener   Listener to attach
     * @param    boolean                 Whether the listener should be attached 
-    *                                   to the created cakephp_http_client_HTTP_Request objects
+    *                                   to the created cakephp_httpclient_HTTP_Request objects
     * @return   boolean                 whether the listener was successfully attached
     * @access   public
     */
     function attach(&$listener, $propagate = false)
     {
-        if (!is_a($listener, 'cakephp_http_client_HTTP_Request_Listener')) {
+        if (!is_a($listener, 'cakephp_httpclient_HTTP_Request_Listener')) {
             return false;
         }
         $this->_listeners[$listener->getId()] =& $listener;
@@ -535,13 +535,13 @@ class cakephp_http_client_HTTP_Client
    /**
     * Removes a Listener from the list of listeners 
     * 
-    * @param    cakephp_http_client_HTTP_Request_Listener   Listener to detach
+    * @param    cakephp_httpclient_HTTP_Request_Listener   Listener to detach
     * @return   boolean                 Whether the listener was successfully detached
     * @access   public
     */
     function detach(&$listener)
     {
-        if (!is_a($listener, 'cakephp_http_client_HTTP_Request_Listener') || 
+        if (!is_a($listener, 'cakephp_httpclient_HTTP_Request_Listener') || 
             !isset($this->_listeners[$listener->getId()])) {
             return false;
         }
@@ -585,12 +585,12 @@ class cakephp_http_client_HTTP_Client
             }
         } else {
             if ('/' == $location[0]) {
-                $url->path = cakephp_http_client_Net_URL::resolvePath($location);
+                $url->path = cakephp_httpclient_Net_URL::resolvePath($location);
             } elseif('/' == substr($url->path, -1)) {
-                $url->path = cakephp_http_client_Net_URL::resolvePath($url->path . $location);
+                $url->path = cakephp_httpclient_Net_URL::resolvePath($url->path . $location);
             } else {
                 $dirname = (DIRECTORY_SEPARATOR == dirname($url->path)? '/': dirname($url->path));
-                $url->path = cakephp_http_client_Net_URL::resolvePath($dirname . '/' . $location);
+                $url->path = cakephp_httpclient_Net_URL::resolvePath($dirname . '/' . $location);
             }
             $url->querystring = array();
             $url->anchor      = '';
@@ -602,7 +602,7 @@ class cakephp_http_client_HTTP_Client
    /**
     * Returns the cookie manager object (e.g. for storing it somewhere)
     *
-    * @return cakephp_http_client_HTTP_Client_CookieManager
+    * @return cakephp_httpclient_HTTP_Client_CookieManager
     * @access public
     */
     function getCookieManager()
@@ -614,7 +614,7 @@ class cakephp_http_client_HTTP_Client
    /**
     * Tries to extract a redirect URL from <<meta http-equiv=Refresh>> tag (request #5734)
     *
-    * @param    cakephp_http_client_HTTP_Request    A request object already containing the response
+    * @param    cakephp_httpclient_HTTP_Request    A request object already containing the response
     * @return   string|null     Absolute URI we are being redirected to, null if no redirect / invalid redirect
     * @access   private
     */

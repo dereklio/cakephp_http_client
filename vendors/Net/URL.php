@@ -34,10 +34,10 @@
 //
 // $Id: URL.php,v 1.49 2007/06/28 14:43:07 davidc Exp $
 //
-// cakephp_http_client_Net_URL Class
+// cakephp_httpclient_Net_URL Class
 
 
-class cakephp_http_client_Net_URL
+class cakephp_httpclient_Net_URL
 {
     var $options = array('encode_query_keys' => false);
     /**
@@ -105,7 +105,7 @@ class cakephp_http_client_Net_URL
     *
     * @see __construct()
     */
-    function cakephp_http_client_Net_URL($url = null, $useBrackets = true)
+    function cakephp_httpclient_Net_URL($url = null, $useBrackets = true)
     {
         $this->__construct($url, $useBrackets);
     }

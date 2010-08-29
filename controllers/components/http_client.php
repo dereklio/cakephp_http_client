@@ -1,17 +1,17 @@
 <?php
 
-App::import('Vendor', 'HttpClient.cakephp_http_client_Net_Socket', aa('file', 'vendors/Net/Socket.php'));
-App::import('Vendor', 'HttpClient.cakephp_http_client_Net_URL', aa('file', 'vendors/Net/URL.php'));
-App::import('Vendor', 'HttpClient.cakephp_http_client_HTTP_Request', aa('file', 'vendors/HTTP/Request.php'));
-App::import('Vendor', 'HttpClient.cakephp_http_client_HTTP_Client_CookieManager', aa('file', 'vendors/HTTP/Client/CookieManager.php'));
-App::import('Vendor', 'HttpClient.cakephp_http_client_HTTP_Client', aa('file', 'vendors/HTTP/Client.php'));
+$plugin = Inflector::camelize(basename(realpath(__FILE__ . '/../../..')));
+foreach (a('PEAR', 'Net/Socket', 'Net/URL', 'HTTP/Request/Listener', 'HTTP/Request', 'HTTP/Client', 'HTTP/Client/CookieManager') as $filename) {
+	App::import('Vendor', $plugin . '.cakephp_httpclient_' . r('/', '_', $filename), aa('file', 'vendors/' . $filename . '.php'));
+}
+unset($plugin);
 
 class HttpClientComponent extends Object {
 	
 	var $_http = null;
 	
 	function &_getInstance() {
-		if (!isset($this->_http)) $this->_http = new cakephp_http_client_HTTP_Client();
+		if (!isset($this->_http)) $this->_http = new cakephp_httpclient_HTTP_Client();
 		return $this->_http;
 	}
 	

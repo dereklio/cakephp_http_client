@@ -35,19 +35,14 @@
  * OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  *
  * @category    HTTP
- * @package     cakephp_http_client_HTTP_Request
+ * @package     cakephp_httpclient_HTTP_Request
  * @author      Richard Heyes <richard@phpguru.org>
  * @author      Alexey Borzov <avb@php.net>
  * @copyright   2002-2007 Richard Heyes
  * @license     http://opensource.org/licenses/bsd-license.php New BSD License
  * @version     CVS: $Id: Request.php,v 1.63 2008/10/11 11:07:10 avb Exp $
- * @link        http://pear.php.net/package/cakephp_http_client_HTTP_Request/
+ * @link        http://pear.php.net/package/cakephp_httpclient_HTTP_Request/
  */
-
-/**
- * PEAR and PEAR_Error classes (for error handling)
- */
-require_once 'PEAR.php';
 
 /**#@+
  * Constants for HTTP request methods
@@ -99,25 +94,25 @@ if (extension_loaded('mbstring') && (2 & ini_get('mbstring.func_overload'))) {
  *
  * Simple example (fetches yahoo.com and displays it):
  * <code>
- * $a = &new cakephp_http_client_HTTP_Request('http://www.yahoo.com/');
+ * $a = &new cakephp_httpclient_HTTP_Request('http://www.yahoo.com/');
  * $a->sendRequest();
  * echo $a->getResponseBody();
  * </code>
  *
  * @category    HTTP
- * @package     cakephp_http_client_HTTP_Request
+ * @package     cakephp_httpclient_HTTP_Request
  * @author      Richard Heyes <richard@phpguru.org>
  * @author      Alexey Borzov <avb@php.net>
  * @version     Release: 1.4.4
  */
-class cakephp_http_client_HTTP_Request
+class cakephp_httpclient_HTTP_Request
 {
    /**#@+
     * @access private
     */
     /**
-    * Instance of cakephp_http_client_Net_URL
-    * @var cakephp_http_client_Net_URL
+    * Instance of cakephp_httpclient_Net_URL
+    * @var cakephp_httpclient_Net_URL
     */
     var $_url;
 
@@ -153,8 +148,7 @@ class cakephp_http_client_HTTP_Request
 
     /**
     * Socket object
-    * @var cakephp_http_client_Net_Socket
-    */
+    * @var cakephp_httpclient_Net_Socket    */
     var $_sock;
 
     /**
@@ -222,8 +216,8 @@ class cakephp_http_client_HTTP_Request
     var $_timeout;
 
     /**
-    * cakephp_http_client_HTTP_Response object
-    * @var cakephp_http_client_HTTP_Response
+    * cakephp_httpclient_HTTP_Response object
+    * @var cakephp_httpclient_HTTP_Response
     */
     var $_response;
 
@@ -270,7 +264,7 @@ class cakephp_http_client_HTTP_Request
     var $_readTimeout = null;
 
    /**
-    * Options to pass to cakephp_http_client_Net_Socket::connect. See stream_context_create
+    * Options to pass to cakephp_httpclient_Net_Socket::connect. See stream_context_create
     * @var array
     */
     var $_socketOptions = null;
@@ -297,11 +291,11 @@ class cakephp_http_client_HTTP_Request
     *   <li>useBrackets    - Whether to append [] to array variable names (bool)</li>
     *   <li>saveBody       - Whether to save response body in response object property (bool)</li>
     *   <li>readTimeout    - Timeout for reading / writing data over the socket (array (seconds, microseconds))</li>
-    *   <li>socketOptions  - Options to pass to cakephp_http_client_Net_Socket object (array)</li>
+    *   <li>socketOptions  - Options to pass to cakephp_httpclient_Net_Socket object (array)</li>
     * </ul>
     * @access public
     */
-    function cakephp_http_client_HTTP_Request($url = '', $params = array())
+    function cakephp_httpclient_HTTP_Request($url = '', $params = array())
     {
         $this->_method         =  HTTP_REQUEST_METHOD_GET;
         $this->_http           =  HTTP_REQUEST_HTTP_VER_1_1;
@@ -333,7 +327,7 @@ class cakephp_http_client_HTTP_Request
         }
 
         // Default useragent
-        $this->addHeader('User-Agent', 'PEAR cakephp_http_client_HTTP_Request class ( http://pear.php.net/ )');
+        $this->addHeader('User-Agent', 'cakephp_httpclient_PEAR cakephp_httpclient_HTTP_Request class ( http://pear.php.net/ )');
 
         // We don't do keep-alives by default
         $this->addHeader('Connection', 'close');
@@ -390,7 +384,7 @@ class cakephp_http_client_HTTP_Request
     */
     function reset($url, $params = array())
     {
-        $this->cakephp_http_client_HTTP_Request($url, $params);
+        $this->cakephp_httpclient_HTTP_Request($url, $params);
     }
 
     /**
@@ -401,7 +395,7 @@ class cakephp_http_client_HTTP_Request
     */
     function setURL($url)
     {
-        $this->_url = &new cakephp_http_client_Net_URL($url, $this->_useBrackets);
+        $this->_url = &new cakephp_httpclient_Net_URL($url, $this->_useBrackets);
 
         if (!empty($this->_url->user) || !empty($this->_url->pass)) {
             $this->setBasicAuth($this->_url->user, $this->_url->pass);
@@ -587,16 +581,16 @@ class cakephp_http_client_HTTP_Request
     * @param  mixed     file name(s)
     * @param  mixed     content-type(s) of file(s) being uploaded
     * @return bool      true on success
-    * @throws PEAR_Error
+    * @throws cakephp_httpclient_PEAR_Error
     */
     function addFile($inputName, $fileName, $contentType = 'application/octet-stream')
     {
         if (!is_array($fileName) && !is_readable($fileName)) {
-            return PEAR::raiseError("File '{$fileName}' is not readable", HTTP_REQUEST_ERROR_FILE);
+            return cakephp_httpclient_PEAR::raiseError("File '{$fileName}' is not readable", HTTP_REQUEST_ERROR_FILE);
         } elseif (is_array($fileName)) {
             foreach ($fileName as $name) {
                 if (!is_readable($name)) {
-                    return PEAR::raiseError("File '{$name}' is not readable", HTTP_REQUEST_ERROR_FILE);
+                    return cakephp_httpclient_PEAR::raiseError("File '{$name}' is not readable", HTTP_REQUEST_ERROR_FILE);
                 }
             }
         }
@@ -677,12 +671,12 @@ class cakephp_http_client_HTTP_Request
     * @access public
     * @param  bool   Whether to store response body in Response object property,
     *                set this to false if downloading a LARGE file and using a Listener
-    * @return mixed  PEAR error on error, true otherwise
+    * @return mixed  cakephp_httpclient_PEAR error on error, true otherwise
     */
     function sendRequest($saveBody = true)
     {
-        if (!is_a($this->_url, 'cakephp_http_client_Net_URL')) {
-            return PEAR::raiseError('No URL given', HTTP_REQUEST_ERROR_URL);
+        if (!is_a($this->_url, 'cakephp_httpclient_Net_URL')) {
+            return cakephp_httpclient_PEAR::raiseError('No URL given', HTTP_REQUEST_ERROR_URL);
         }
 
         $host = isset($this->_proxy_host) ? $this->_proxy_host : $this->_url->host;
@@ -691,10 +685,10 @@ class cakephp_http_client_HTTP_Request
         if (strcasecmp($this->_url->protocol, 'https') == 0) {
             // Bug #14127, don't try connecting to HTTPS sites without OpenSSL
             if (version_compare(PHP_VERSION, '4.3.0', '<') || !extension_loaded('openssl')) {
-                return PEAR::raiseError('Need PHP 4.3.0 or later with OpenSSL support for https:// requests',
+                return cakephp_httpclient_PEAR::raiseError('Need PHP 4.3.0 or later with OpenSSL support for https:// requests',
                                         HTTP_REQUEST_ERROR_URL);
             } elseif (isset($this->_proxy_host)) {
-                return PEAR::raiseError('HTTPS proxies are not supported', HTTP_REQUEST_ERROR_PROXY);
+                return cakephp_httpclient_PEAR::raiseError('HTTPS proxies are not supported', HTTP_REQUEST_ERROR_PROXY);
             }
             $host = 'ssl://' . $host;
         }
@@ -713,7 +707,7 @@ class cakephp_http_client_HTTP_Request
 
         $keepAlive = (HTTP_REQUEST_HTTP_VER_1_1 == $this->_http && empty($this->_requestHeaders['connection'])) ||
                      (!empty($this->_requestHeaders['connection']) && 'Keep-Alive' == $this->_requestHeaders['connection']);
-        $sockets   = &PEAR::getStaticProperty('cakephp_http_client_HTTP_Request', 'sockets');
+        $sockets   = &cakephp_httpclient_PEAR::getStaticProperty('cakephp_httpclient_HTTP_Request', 'sockets');
         $sockKey   = $host . ':' . $port;
         unset($this->_sock);
 
@@ -725,12 +719,12 @@ class cakephp_http_client_HTTP_Request
             $err = null;
         } else {
             $this->_notify('connect');
-            $this->_sock =& new cakephp_http_client_Net_Socket();
+            $this->_sock =& new cakephp_httpclient_Net_Socket();
             $err = $this->_sock->connect($host, $port, null, $this->_timeout, $this->_socketOptions);
         }
-        PEAR::isError($err) or $err = $this->_sock->write($this->_buildRequest());
+        cakephp_httpclient_PEAR::isError($err) or $err = $this->_sock->write($this->_buildRequest());
 
-        if (!PEAR::isError($err)) {
+        if (!cakephp_httpclient_PEAR::isError($err)) {
             if (!empty($this->_readTimeout)) {
                 $this->_sock->setTimeout($this->_readTimeout[0], $this->_readTimeout[1]);
             }
@@ -738,7 +732,7 @@ class cakephp_http_client_HTTP_Request
             $this->_notify('sentRequest');
 
             // Read the response
-            $this->_response = &new cakephp_http_client_HTTP_Response($this->_sock, $this->_listeners);
+            $this->_response = &new cakephp_httpclient_HTTP_Response($this->_sock, $this->_listeners);
             $err = $this->_response->process(
                 $this->_saveBody && $saveBody,
                 HTTP_REQUEST_METHOD_HEAD != $this->_method
@@ -760,7 +754,7 @@ class cakephp_http_client_HTTP_Request
 
         ini_set('magic_quotes_runtime', $magicQuotes);
 
-        if (PEAR::isError($err)) {
+        if (cakephp_httpclient_PEAR::isError($err)) {
             return $err;
         }
 
@@ -783,7 +777,7 @@ class cakephp_http_client_HTTP_Request
 
             // Absolute URL
             if (preg_match('/^https?:\/\//i', $redirect)) {
-                $this->_url = &new cakephp_http_client_Net_URL($redirect);
+                $this->_url = &new cakephp_httpclient_Net_URL($redirect);
                 $this->addHeader('Host', $this->_generateHostHeader());
             // Absolute path
             } elseif ($redirect{0} == '/') {
@@ -796,7 +790,7 @@ class cakephp_http_client_HTTP_Request
                 } else {
                     $redirect = dirname($this->_url->path) . '/' . $redirect;
                 }
-                $redirect = cakephp_http_client_Net_URL::resolvePath($redirect);
+                $redirect = cakephp_httpclient_Net_URL::resolvePath($redirect);
                 $this->_url->path = $redirect;
 
             // Filename, no path
@@ -814,7 +808,7 @@ class cakephp_http_client_HTTP_Request
 
         // Too many redirects
         } elseif ($this->_allowRedirects AND $this->_redirects > $this->_maxRedirects) {
-            return PEAR::raiseError('Too many redirects', HTTP_REQUEST_ERROR_REDIRECTS);
+            return cakephp_httpclient_PEAR::raiseError('Too many redirects', HTTP_REQUEST_ERROR_REDIRECTS);
         }
 
         return true;
@@ -929,7 +923,7 @@ class cakephp_http_client_HTTP_Request
                 // Add default content-type
                 $this->addHeader('Content-Type', 'application/x-www-form-urlencoded');
             } elseif ('multipart/form-data' == $this->_requestHeaders['content-type']) {
-                $boundary = 'cakephp_http_client_HTTP_Request_' . md5(uniqid('request') . microtime());
+                $boundary = 'cakephp_httpclient_HTTP_Request_' . md5(uniqid('request') . microtime());
                 $this->addHeader('Content-Type', 'multipart/form-data; boundary=' . $boundary);
             }
         }
@@ -1050,24 +1044,24 @@ class cakephp_http_client_HTTP_Request
     * Adds a Listener to the list of listeners that are notified of
     * the object's events
     *
-    * Events sent by cakephp_http_client_HTTP_Request object
+    * Events sent by cakephp_httpclient_HTTP_Request object
     * - 'connect': on connection to server
     * - 'sentRequest': after the request was sent
     * - 'disconnect': on disconnection from server
     *
-    * Events sent by cakephp_http_client_HTTP_Response object
+    * Events sent by cakephp_httpclient_HTTP_Response object
     * - 'gotHeaders': after receiving response headers (headers are passed in $data)
     * - 'tick': on receiving a part of response body (the part is passed in $data)
     * - 'gzTick': on receiving a gzip-encoded part of response body (ditto)
     * - 'gotBody': after receiving the response body (passes the decoded body in $data if it was gzipped)
     *
-    * @param    cakephp_http_client_HTTP_Request_Listener   listener to attach
+    * @param    cakephp_httpclient_HTTP_Request_Listener   listener to attach
     * @return   boolean                 whether the listener was successfully attached
     * @access   public
     */
     function attach(&$listener)
     {
-        if (!is_a($listener, 'cakephp_http_client_HTTP_Request_Listener')) {
+        if (!is_a($listener, 'cakephp_httpclient_HTTP_Request_Listener')) {
             return false;
         }
         $this->_listeners[$listener->getId()] =& $listener;
@@ -1078,13 +1072,13 @@ class cakephp_http_client_HTTP_Request
    /**
     * Removes a Listener from the list of listeners
     *
-    * @param    cakephp_http_client_HTTP_Request_Listener   listener to detach
+    * @param    cakephp_httpclient_HTTP_Request_Listener   listener to detach
     * @return   boolean                 whether the listener was successfully detached
     * @access   public
     */
     function detach(&$listener)
     {
-        if (!is_a($listener, 'cakephp_http_client_HTTP_Request_Listener') ||
+        if (!is_a($listener, 'cakephp_httpclient_HTTP_Request_Listener') ||
             !isset($this->_listeners[$listener->getId()])) {
             return false;
         }
@@ -1099,7 +1093,7 @@ class cakephp_http_client_HTTP_Request
     * @param    string  Event name
     * @param    mixed   Additional data
     * @access   private
-    * @see      cakephp_http_client_HTTP_Request::attach()
+    * @see      cakephp_httpclient_HTTP_Request::attach()
     */
     function _notify($event, $data = null)
     {
@@ -1114,17 +1108,16 @@ class cakephp_http_client_HTTP_Request
  * Response class to complement the Request class
  *
  * @category    HTTP
- * @package     cakephp_http_client_HTTP_Request
+ * @package     cakephp_httpclient_HTTP_Request
  * @author      Richard Heyes <richard@phpguru.org>
  * @author      Alexey Borzov <avb@php.net>
  * @version     Release: 1.4.4
  */
-class cakephp_http_client_HTTP_Response
+class cakephp_httpclient_HTTP_Response
 {
     /**
     * Socket object
-    * @var cakephp_http_client_Net_Socket
-    */
+    * @var cakephp_httpclient_Net_Socket    */
     var $_sock;
 
     /**
@@ -1184,10 +1177,10 @@ class cakephp_http_client_HTTP_Response
     /**
     * Constructor
     *
-    * @param  cakephp_http_client_Net_Socket    socket to read the response from
+    * @param  cakephp_httpclient_Net_Socket    socket to read the response from
     * @param  array         listeners attached to request
     */
-    function cakephp_http_client_HTTP_Response(&$sock, &$listeners)
+    function cakephp_httpclient_HTTP_Response(&$sock, &$listeners)
     {
         $this->_sock      =& $sock;
         $this->_listeners =& $listeners;
@@ -1206,15 +1199,15 @@ class cakephp_http_client_HTTP_Response
     *                   This is assumed to be true if body is gzip-encoded.
     * @param  bool      Whether the response can actually have a message-body.
     *                   Will be set to false for HEAD requests.
-    * @throws PEAR_Error
-    * @return mixed     true on success, PEAR_Error in case of malformed response
+    * @throws cakephp_httpclient_PEAR_Error
+    * @return mixed     true on success, cakephp_httpclient_PEAR_Error in case of malformed response
     */
     function process($saveBody = true, $canHaveBody = true)
     {
         do {
             $line = $this->_sock->readLine();
             if (!preg_match('!^(HTTP/\d\.\d) (\d{3})(?: (.+))?!', $line, $s)) {
-                return PEAR::raiseError('Malformed response', HTTP_REQUEST_ERROR_RESPONSE);
+                return cakephp_httpclient_PEAR::raiseError('Malformed response', HTTP_REQUEST_ERROR_RESPONSE);
             } else {
                 $this->_protocol = $s[1];
                 $this->_code     = intval($s[2]);
@@ -1273,7 +1266,7 @@ class cakephp_http_client_HTTP_Response
             // Uncompress the body if needed
             if ($gzipped) {
                 $body = $this->_decodeGzip($this->_body);
-                if (PEAR::isError($body)) {
+                if (cakephp_httpclient_PEAR::isError($body)) {
                     return $body;
                 }
                 $this->_body = $body;
@@ -1401,7 +1394,7 @@ class cakephp_http_client_HTTP_Response
     * @param    string  Event name
     * @param    mixed   Additional data
     * @access   private
-    * @see cakephp_http_client_HTTP_Request::_notify()
+    * @see cakephp_httpclient_HTTP_Request::_notify()
     */
     function _notify($event, $data = null)
     {
@@ -1435,11 +1428,11 @@ class cakephp_http_client_HTTP_Response
         }
         $method = ord(substr($data, 2, 1));
         if (8 != $method) {
-            return PEAR::raiseError('_decodeGzip(): unknown compression method', HTTP_REQUEST_ERROR_GZIP_METHOD);
+            return cakephp_httpclient_PEAR::raiseError('_decodeGzip(): unknown compression method', HTTP_REQUEST_ERROR_GZIP_METHOD);
         }
         $flags = ord(substr($data, 3, 1));
         if ($flags & 224) {
-            return PEAR::raiseError('_decodeGzip(): reserved bits are set', HTTP_REQUEST_ERROR_GZIP_DATA);
+            return cakephp_httpclient_PEAR::raiseError('_decodeGzip(): reserved bits are set', HTTP_REQUEST_ERROR_GZIP_DATA);
         }
 
         // header is 10 bytes minimum. may be longer, though.
@@ -1447,45 +1440,45 @@ class cakephp_http_client_HTTP_Response
         // extra fields, need to skip 'em
         if ($flags & 4) {
             if ($length - $headerLength - 2 < 8) {
-                return PEAR::raiseError('_decodeGzip(): data too short', HTTP_REQUEST_ERROR_GZIP_DATA);
+                return cakephp_httpclient_PEAR::raiseError('_decodeGzip(): data too short', HTTP_REQUEST_ERROR_GZIP_DATA);
             }
             $extraLength = unpack('v', substr($data, 10, 2));
             if ($length - $headerLength - 2 - $extraLength[1] < 8) {
-                return PEAR::raiseError('_decodeGzip(): data too short', HTTP_REQUEST_ERROR_GZIP_DATA);
+                return cakephp_httpclient_PEAR::raiseError('_decodeGzip(): data too short', HTTP_REQUEST_ERROR_GZIP_DATA);
             }
             $headerLength += $extraLength[1] + 2;
         }
         // file name, need to skip that
         if ($flags & 8) {
             if ($length - $headerLength - 1 < 8) {
-                return PEAR::raiseError('_decodeGzip(): data too short', HTTP_REQUEST_ERROR_GZIP_DATA);
+                return cakephp_httpclient_PEAR::raiseError('_decodeGzip(): data too short', HTTP_REQUEST_ERROR_GZIP_DATA);
             }
             $filenameLength = strpos(substr($data, $headerLength), chr(0));
             if (false === $filenameLength || $length - $headerLength - $filenameLength - 1 < 8) {
-                return PEAR::raiseError('_decodeGzip(): data too short', HTTP_REQUEST_ERROR_GZIP_DATA);
+                return cakephp_httpclient_PEAR::raiseError('_decodeGzip(): data too short', HTTP_REQUEST_ERROR_GZIP_DATA);
             }
             $headerLength += $filenameLength + 1;
         }
         // comment, need to skip that also
         if ($flags & 16) {
             if ($length - $headerLength - 1 < 8) {
-                return PEAR::raiseError('_decodeGzip(): data too short', HTTP_REQUEST_ERROR_GZIP_DATA);
+                return cakephp_httpclient_PEAR::raiseError('_decodeGzip(): data too short', HTTP_REQUEST_ERROR_GZIP_DATA);
             }
             $commentLength = strpos(substr($data, $headerLength), chr(0));
             if (false === $commentLength || $length - $headerLength - $commentLength - 1 < 8) {
-                return PEAR::raiseError('_decodeGzip(): data too short', HTTP_REQUEST_ERROR_GZIP_DATA);
+                return cakephp_httpclient_PEAR::raiseError('_decodeGzip(): data too short', HTTP_REQUEST_ERROR_GZIP_DATA);
             }
             $headerLength += $commentLength + 1;
         }
         // have a CRC for header. let's check
         if ($flags & 1) {
             if ($length - $headerLength - 2 < 8) {
-                return PEAR::raiseError('_decodeGzip(): data too short', HTTP_REQUEST_ERROR_GZIP_DATA);
+                return cakephp_httpclient_PEAR::raiseError('_decodeGzip(): data too short', HTTP_REQUEST_ERROR_GZIP_DATA);
             }
             $crcReal   = 0xffff & crc32(substr($data, 0, $headerLength));
             $crcStored = unpack('v', substr($data, $headerLength, 2));
             if ($crcReal != $crcStored[1]) {
-                return PEAR::raiseError('_decodeGzip(): header CRC check failed', HTTP_REQUEST_ERROR_GZIP_CRC);
+                return cakephp_httpclient_PEAR::raiseError('_decodeGzip(): header CRC check failed', HTTP_REQUEST_ERROR_GZIP_CRC);
             }
             $headerLength += 2;
         }
@@ -1498,16 +1491,16 @@ class cakephp_http_client_HTTP_Response
         // don't pass $dataSize to gzinflate, see bugs #13135, #14370
         $unpacked = gzinflate(substr($data, $headerLength, -8));
         if (false === $unpacked) {
-            return PEAR::raiseError('_decodeGzip(): gzinflate() call failed', HTTP_REQUEST_ERROR_GZIP_READ);
+            return cakephp_httpclient_PEAR::raiseError('_decodeGzip(): gzinflate() call failed', HTTP_REQUEST_ERROR_GZIP_READ);
         } elseif ($dataSize != strlen($unpacked)) {
-            return PEAR::raiseError('_decodeGzip(): data size check failed', HTTP_REQUEST_ERROR_GZIP_READ);
+            return cakephp_httpclient_PEAR::raiseError('_decodeGzip(): data size check failed', HTTP_REQUEST_ERROR_GZIP_READ);
         } elseif ((0xffffffff & $dataCrc) != (0xffffffff & crc32($unpacked))) {
-            return PEAR::raiseError('_decodeGzip(): data CRC check failed', HTTP_REQUEST_ERROR_GZIP_CRC);
+            return cakephp_httpclient_PEAR::raiseError('_decodeGzip(): data CRC check failed', HTTP_REQUEST_ERROR_GZIP_CRC);
         }
         if (HTTP_REQUEST_MBSTRING) {
             mb_internal_encoding($oldEncoding);
         }
         return $unpacked;
     }
-} // End class cakephp_http_client_HTTP_Response
+} // End class cakephp_httpclient_HTTP_Response
 ?>
