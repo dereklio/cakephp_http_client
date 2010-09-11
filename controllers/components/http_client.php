@@ -1,7 +1,7 @@
 <?php
 
-$plugin = Inflector::camelize(basename(realpath(__FILE__ . '/../../..')));
-foreach (a('PEAR', 'Net/Socket', 'Net/URL', 'HTTP/Request/Listener', 'HTTP/Request', 'HTTP/Client', 'HTTP/Client/CookieManager') as $filename) {
+$plugin = Inflector::camelize(basename(realpath(dirname(__FILE__) . '/../..')));
+foreach (a('PEAR', 'PEAR5', 'Net/Socket', 'Net/URL', 'HTTP/Request/Listener', 'HTTP/Request', 'HTTP/Client', 'HTTP/Client/CookieManager') as $filename) {
 	App::import('Vendor', $plugin . '.cakephp_httpclient_' . r('/', '_', $filename), aa('file', 'vendors/' . $filename . '.php'));
 }
 unset($plugin);

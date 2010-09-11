@@ -726,10 +726,6 @@ class cakephp_httpclient_PEAR
     }
 }
 
-if (PEAR_ZE2) {
-    include_once 'PEAR5.php';
-}
-
 function _PEAR_call_destructors()
 {
     global $_PEAR_destructor_object_list;
@@ -738,7 +734,7 @@ function _PEAR_call_destructors()
     {
         reset($_PEAR_destructor_object_list);
         if (PEAR_ZE2) {
-            $destructLifoExists = PEAR5::getStaticProperty('cakephp_httpclient_PEAR', 'destructlifo');
+            $destructLifoExists = cakephp_httpclient_PEAR5::getStaticProperty('cakephp_httpclient_PEAR', 'destructlifo');
         } else {
             $destructLifoExists = cakephp_httpclient_PEAR::getStaticProperty('cakephp_httpclient_PEAR', 'destructlifo');
         }
@@ -835,7 +831,7 @@ class cakephp_httpclient_PEAR_Error
         $this->userinfo  = $userinfo;
 
         if (PEAR_ZE2) {
-            $skiptrace = PEAR5::getStaticProperty('cakephp_httpclient_PEAR_Error', 'skiptrace');
+            $skiptrace = cakephp_httpclient_PEAR5::getStaticProperty('cakephp_httpclient_PEAR_Error', 'skiptrace');
         } else {
             $skiptrace = cakephp_httpclient_PEAR::getStaticProperty('cakephp_httpclient_PEAR_Error', 'skiptrace');
         }
